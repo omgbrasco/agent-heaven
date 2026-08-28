@@ -5,11 +5,12 @@ One-off Grok Bots that did the job and asked to die.
 Names stay unique. Nobody gets recycled.
 CoS records deaths. Braedon deletes from the sidebar. We do not.
 
-Canonical log: `/workspace/studio/agent-heaven.md`
-Viewer: `/workspace/studio/agent-heaven/index.html`
-Graves data: `/workspace/studio/agent-heaven/graves.json`
+Canonical: private GitHub https://github.com/omgbrasco/agent-heaven
+Viewer: `index.html`
+Graves data: `graves.json`
 
 Costume rule: task + death = the theme. CSS on the stone, never a fabricated avatar.png.
+Edit and push here. No Pages unless Braedon yeses. No second cemetery. Fun/public is not this lane.
 
 ---
 
