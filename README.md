@@ -1,9 +1,9 @@
 # Agent Heaven
 
-Private backup of the cemetery for Braedon Scott's finished one-off Grok Bots.
+Canonical cemetery for Braedon Scott's finished one-off Grok Bots. Private.
 
 - Open `index.html` (tiny CSS graveyard)
 - Graves: `graves.json`
 - Log: `agent-heaven.md`
 
-Canonical copy still lives on the studio computer. Unique names never get recycled.
+Unique names never get recycled. Edit and push here. No Pages unless Braedon yeses. No second cemetery.
