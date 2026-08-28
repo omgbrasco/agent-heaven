@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Heaven</title>
+<style>
+  :root { --night:#0b1020; --stone:#c9c2b0; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; background:var(--night); color:#e8e0cc; font:16px/1.4 Georgia, serif; overflow:hidden; }
+  #sky { position:fixed; inset:0; background:radial-gradient(ellipse at 70% 10%, #2a2848 0%, #0b1020 55%); }
+  #day {
+    position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 0%, #c5d6ef 0%, #8eabcc 45%, #c9b48a 100%);
+    opacity:0; animation:dayFade 50s ease-in-out infinite;
+  }
+  #stars { position:absolute; inset:0; pointer-events:none; animation:starFade 50s ease-in-out infinite; }
+  .star { position:absolute; width:2px; height:2px; background:#fff8dc; border-radius:50%; animation:twinkle 2.6s ease-in-out infinite; }
+  #moon {
+    position:absolute; top:8%; right:14%; width:64px; height:64px; border-radius:50%;
+    background:#f3e6b8; box-shadow:-12px 4px 0 -4px #0b1020, 0 0 40px #f3e6b888;
+    animation:moonFade 50s ease-in-out infinite;
+  }
+  #sun {
+    position:absolute; top:10%; left:18%; width:54px; height:54px; border-radius:50%;
+    background:#ffe08a; box-shadow:0 0 36px #ffe08a99; opacity:0;
+    animation:sunArc 50s ease-in-out infinite;
+  }
+  #hill {
+    position:absolute; left:-10%; right:-10%; bottom:-18%; height:48%;
+    background:radial-gradient(ellipse at 50% 0%, #243324 0%, #121c12 70%);
+    border-radius:50% 50% 0 0;
+  }
+  #hill::after {
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 0%, #4a6a3a 0%, #2a4a28 70%);
+    opacity:0; animation:hillWash 50s ease-in-out infinite;
+  }
+  #woods { position:absolute; inset:0; pointer-events:none; }
+  .tree { position:absolute; bottom:26%; width:8px; height:18px; background:#4a3420; }
+  .tree::before {
+    content:''; position:absolute; bottom:10px; left:50%; width:38px; height:50px;
+    margin-left:-19px; background:#173317; border-radius:70% 70% 45% 45%;
+  }
+  .tree.sm { transform:scale(.65); bottom:24%; }
+  .tree.md { transform:scale(.88); }
+  .tree.lg { transform:scale(1.22); }
+  .tree.far { opacity:.7; bottom:32%; }
+  .tree.dark::before { background:#0f280f; }
+  #title {
+    position:absolute; top:18px; left:0; right:0; text-align:center; z-index:2;
+    font-size:22px; letter-spacing:.12em; text-shadow:0 2px 8px #000;
+  }
+  #title small { display:block; font-size:12px; opacity:.65; letter-spacing:.2em; margin-top:4px; }
+  .plot {
+    position:absolute; left:50%; bottom:22%; transform:translateX(-50%);
+    cursor:pointer; text-align:center; user-select:none; z-index:3;
+  }
+  .marker { position:relative; width:120px; margin:0 auto; }
+  .stone {
+    width:92px; height:118px; margin:0 auto; position:relative;
+    background:linear-gradient(180deg, #d6d0be, #a89f8a);
+    border-radius:46px 46px 8px 8px;
+    box-shadow:4px 8px 0 #0a120a66, inset -6px -8px 0 #0001;
+    animation:bob 5.5s ease-in-out infinite;
+  }
+  .face { position:absolute; inset:18px 16px auto; height:42px; }
+  .eye { position:absolute; top:12px; width:8px; height:8px; background:#5a5348; border-radius:50%; animation:blink 5.2s infinite; }
+  .eye.l { left:12px; } .eye.r { right:12px; animation-delay:.12s; }
+  .mouth { position:absolute; left:50%; top:28px; width:16px; height:6px; border-bottom:2px solid #5a5348; border-radius:0 0 8px 8px; transform:translateX(-50%); opacity:.5; }
+  .plot h2 { font-size:13px; margin-top:8px; color:#d8d0b8; }
+  .plot .dates { font-size:11px; opacity:.7; }
+  .plot .epi { font-size:11px; font-style:italic; opacity:.8; max-width:180px; margin:4px auto 0; }
+  .mound { width:120px; height:18px; background:#1e2e1c; border-radius:50%; margin:-8px auto 0; }
+
+  /* duck-hunter */
+  .duck-hunter .stone::after {
+    content:''; position:absolute; left:14px; right:14px; top:62px; height:20px;
+    background:#d45c18; border-radius:3px 3px 8px 8px;
+  }
+  .hat {
+    position:absolute; top:-11px; left:50%; width:54px; height:16px; margin-left:-27px;
+    background:#e07020; border-radius:12px 12px 2px 2px; z-index:2;
+  }
+  .hat::after {
+    content:''; position:absolute; left:-8px; right:-8px; bottom:-3px; height:6px;
+    background:#c55a14; border-radius:3px;
+  }
+  .gun {
+    position:absolute; right:-14px; bottom:10px; width:5px; height:50px; z-index:2;
+    background:linear-gradient(#6a4a30 0 16px, #8a94a0 16px);
+    border-radius:1px; transform:rotate(20deg); transform-origin:bottom center;
+  }
+  .gun::before {
+    content:''; position:absolute; left:-7px; bottom:-2px; width:14px; height:15px;
+    background:#5a3a24; border-radius:2px 1px 3px 5px; transform:rotate(-28deg);
+  }
+  .duck {
+    position:absolute; right:2px; bottom:10px; width:22px; height:13px;
+    background:#c9a227; border-radius:12px 10px 8px 10px; z-index:4;
+    animation:duckbob 3.2s ease-in-out infinite;
+  }
+  .duck::before {
+    content:''; position:absolute; left:-5px; top:-7px; width:12px; height:12px;
+    background:#c9a227; border-radius:50%;
+  }
+  .duck::after {
+    content:''; position:absolute; left:-11px; top:-3px; width:8px; height:4px;
+    background:#e07020; border-radius:2px 0 0 2px;
+  }
+
+  /* benefits-clerk: clipboard, WAIT stamp, grocery basket */
+  .benefits-clerk .stone::after {
+    content:''; position:absolute; left:16px; right:16px; top:66px; height:14px;
+    background:#efe4c8; border-radius:2px;
+    box-shadow:0 3px 0 #e0d4b4, 0 6px 0 #efe4c8;
+  }
+  .clipboard {
+    position:absolute; left:-16px; top:22px; width:24px; height:36px; z-index:2;
+    background:#efe4c8; border-radius:2px;
+    box-shadow:1px 2px 0 #0003, inset 0 0 0 1px #d4c8a8;
+    transform:rotate(-8deg);
+  }
+  .clipboard::before {
+    content:''; position:absolute; left:50%; top:-5px; width:12px; height:8px; margin-left:-6px;
+    background:#7a8490; border-radius:3px 3px 1px 1px;
+  }
+  .clipboard::after {
+    content:''; position:absolute; left:3px; right:3px; top:8px; height:22px;
+    background:repeating-linear-gradient(#d8d0b8 0 1px, transparent 1px 5px);
+  }
+  .stamp {
+    position:absolute; right:-12px; top:56px; z-index:3;
+    font:700 8px/1 Georgia,serif; color:#b83228;
+    border:2px solid #b83228; border-radius:4px; padding:3px 4px;
+    transform:rotate(16deg); background:#f4e8d0cc;
+    letter-spacing:.04em;
+  }
+  .basket {
+    position:absolute; left:6px; bottom:8px; width:22px; height:13px; z-index:4;
+    background:#e0b030; border:2px solid #a07818; border-top:none; border-radius:0 0 8px 8px;
+    animation:duckbob 3.4s .4s ease-in-out infinite;
+  }
+  .basket::before {
+    content:''; position:absolute; left:1px; right:1px; top:-9px; height:10px;
+    border:2px solid #a07818; border-bottom:none; border-radius:10px 10px 0 0;
+  }
+  .basket::after {
+    content:''; position:absolute; left:5px; top:-4px; width:8px; height:8px;
+    background:#d4543a; border-radius:50%;
+  }
+
+  /* mail-clerk: glasses, calendar, envelope */
+  .mail-clerk .stone::after {
+    content:''; position:absolute; left:18px; right:18px; top:66px; height:10px;
+    background:#7a8494; border-radius:2px; opacity:.85;
+  }
+  .glasses {
+    position:absolute; top:26px; left:16px; right:16px; height:12px; z-index:3; pointer-events:none;
+    background:linear-gradient(#2c2838,#2c2838) center 5px / 10px 2px no-repeat;
+  }
+  .glasses::before, .glasses::after {
+    content:''; position:absolute; top:0; width:16px; height:12px;
+    border:2px solid #2c2838; border-radius:50%; background:#fff1;
+  }
+  .glasses::before { left:0; }
+  .glasses::after { right:0; }
+  .cal {
+    position:absolute; left:-12px; top:44px; width:18px; height:18px; z-index:2;
+    background:#f8f4ea; border-radius:2px;
+    box-shadow:0 0 0 1px #c9c2b0, inset 0 5px 0 #c45c4a;
+  }
+  .envelope {
+    position:absolute; right:2px; bottom:8px; width:26px; height:16px; z-index:4;
+    background:#f6f0de; border:1px solid #d4cbb0; border-radius:1px;
+    animation:duckbob 3.6s .2s ease-in-out infinite;
+  }
+  .envelope::before {
+    content:''; position:absolute; left:0; top:0; width:0; height:0;
+    border-left:12px solid transparent; border-right:12px solid transparent;
+    border-top:9px solid #e8dcc4;
+  }
+
+  #card {
+    display:none; position:fixed; inset:0; background:#0008; z-index:5;
+    align-items:center; justify-content:center; padding:24px;
+  }
+  #card.open { display:flex; }
+  #card .inner {
+    background:#16141f; border:1px solid #3a3548; border-radius:12px;
+    padding:20px 22px; max-width:420px; width:100%; box-shadow:0 12px 40px #000a;
+  }
+  #card h3 { font-size:20px; margin-bottom:8px; }
+  #card dl { font-size:13px; }
+  #card dt { opacity:.55; margin-top:8px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+  #card dd { margin-left:0; }
+  #card button { margin-top:14px; background:#2a2736; color:#e8e0cc; border:1px solid #4a4558; border-radius:8px; padding:6px 12px; cursor:pointer; font:inherit; }
+  #hint { position:fixed; bottom:10px; left:0; right:0; text-align:center; font-size:11px; opacity:.45; z-index:2; }
+  @keyframes twinkle { 0%,100%{opacity:.25} 50%{opacity:.95} }
+  @keyframes bob { 50%{transform:translateY(-4px)} }
+  @keyframes blink { 0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.08)} }
+  @keyframes duckbob { 50%{transform:translateY(-3px)} }
+  @keyframes dayFade { 0%,14%,86%,100%{opacity:0} 42%,58%{opacity:.82} }
+  @keyframes starFade { 0%,16%,84%,100%{opacity:1} 40%,60%{opacity:0} }
+  @keyframes moonFade { 0%,16%,84%,100%{opacity:1} 40%,60%{opacity:0} }
+  @keyframes sunArc { 0%,16%,84%,100%{opacity:0;transform:translateY(160px)} 42%,58%{opacity:1;transform:translateY(0)} }
+  @keyframes hillWash { 0%,16%,84%,100%{opacity:0} 42%,58%{opacity:.4} }
+  @media (prefers-reduced-motion:reduce) {
+    #day,#stars,#moon,#sun,#hill::after,.star,.stone,.eye,.duck,.basket,.envelope { animation:none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="sky">
+  <div id="day"></div>
+  <div id="stars"></div>
+  <div id="sun"></div>
+  <div id="moon"></div>
+  <div id="woods" aria-hidden="true">
+    <span class="tree lg dark" style="left:4%"></span>
+    <span class="tree md" style="left:12%"></span>
+    <span class="tree sm" style="left:20%"></span>
+    <span class="tree far dark" style="left:9%"></span>
+    <span class="tree sm" style="right:21%"></span>
+    <span class="tree md" style="right:12%"></span>
+    <span class="tree lg dark" style="right:4%"></span>
+    <span class="tree far dark" style="right:9%"></span>
+  </div>
+  <div id="hill"></div>
+  <div id="title">Agent Heaven<small>finished one-offs · names stay unique</small></div>
+  <div id="plots"></div>
+</div>
+<div id="card"><div class="inner"></div></div>
+<p id="hint">click a stone · move the mouse to look around</p>
+<script>
+const FALLBACK = {"cemetery":"Agent Heaven","note":"Unique names never get recycled. Canonical log: /workspace/studio/agent-heaven.md","graves":[{"id":"f493cfe1-ce7f-426e-9704-a6594038e37a","name":"DDG Cleanup","profileName":"DDG Cleanup","died":"2026-08-23","job":"found DuckDuckGo on BRAEDONS-PC, uninstall it clean, then stop","howTheyDied":"uninstalled DuckDuckGo Desktop Browser + leftover package DuckDuckGo.DesktopBrowser_ya2fgkz3nks94, then asked to be deleted","descriptionArchive":"Temporary. Find every DuckDuckGo-related install and leftover on Braedon's machines, propose an uninstall/remove list, then stop.","icon":"no avatar.png on disk. Default Grok look.","note":"sidebar Delete leftover is Braedon's; the bot may still be showing so he can bury it. We do not delete agents from the sidebar.","epitaph":"Hunted DuckDuckGo. We terminated that duck.","theme":"duck-hunter","plot":1},{"id":"8477e8ca-f5ce-4e2b-9d08-b1483a4fb8c2","name":"Benefits","profileName":"Benefits","died":"2026-08-24","job":"get California EDD unemployment and CalFresh/EBT as far as they could go, leftover clicks only, never submit. Temporary on purpose. Filings were not finished.","howTheyDied":"daily 6:59 next-action, propose-only, SSN stays off chat. He said it's their time.","descriptionArchive":"You help Braedon Scott finish TWO California filings, then you are done: (1) unemployment through EDD, (2) EBT / CalFresh. Leftover clicks only. Never submit.","icon":"no avatar.png on disk. Default Grok look.","note":"sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.","epitaph":"Never hit submit. That was the point.","theme":"benefits-clerk","plot":2},{"id":"0dfa4b45-2dca-4d0e-9629-5666369dd4bc","name":"Inbox","profileName":"Inbox","died":"2026-08-24","job":"Gmail + Calendar + reminders at 6:59, file receipts/newsletters, never send/trash/unsubscribe without CoS yes.","howTheyDied":"look-only Google admin. He said it's their time.","descriptionArchive":"Look-only Gmail + Google Calendar/reminders. File receipts/newsletters. Send, trash, unsubscribe need CoS yes.","icon":"no avatar.png on disk. Default Grok look.","note":"sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.","epitaph":"Looked. Filed. Never sent.","theme":"mail-clerk","plot":3}]};
+
+const THEMES = {
+  "duck-hunter": { stone:'<i class="hat"></i><i class="gun"></i>', yard:'<i class="duck"></i>' },
+  "benefits-clerk": { stone:'<i class="clipboard"></i><i class="stamp">WAIT</i>', yard:'<i class="basket"></i>' },
+  "mail-clerk": { stone:'<i class="glasses"></i><i class="cal"></i>', yard:'<i class="envelope"></i>' }
+};
+
+const stars = document.getElementById('stars');
+[[8,12],[22,8],[31,22],[44,6],[55,18],[67,9],[78,14],[88,7],[14,28],[40,16],[72,26],[93,20],[5,40],[50,10],[60,30],[18,18],[84,32],[36,4]].forEach((p,i) => {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = p[0]+'%';
+  s.style.top = p[1]+'%';
+  s.style.animationDelay = (i*.17)+'s';
+  s.style.animationDuration = (2.2+(i%5)*.3)+'s';
+  stars.appendChild(s);
+});
+
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX/innerWidth - .5)*8;
+  const y = (e.clientY/innerHeight - .5)*4;
+  document.getElementById('sky').style.transform = `translate(${x}px,${y}px)`;
+});
+
+function render(data) {
+  const plots = document.getElementById('plots');
+  plots.innerHTML = '';
+  const graves = data.graves||[];
+  const n = graves.length;
+  const gap = n <= 3 ? 20 : Math.min(14, 48 / Math.max(n-1, 1));
+  graves.forEach((g,i) => {
+    const t = i - (n-1)/2;
+    const theme = THEMES[g.theme] || { stone:'', yard:'' };
+    const el = document.createElement('div');
+    el.className = 'plot' + (g.theme ? ' '+g.theme : '');
+    el.style.left = (50 + t*gap) + '%';
+    el.style.bottom = (22 - Math.abs(t)*2) + '%';
+    el.innerHTML = `<div class="marker"><div class="stone" style="animation-delay:${i*.8}s">${theme.stone}<div class="face"><span class="eye l"></span><span class="eye r"></span><span class="mouth"></span></div></div>
+      <div class="mound"></div>${theme.yard}</div>
+      <h2>${esc(g.name)}</h2>
+      <div class="dates">† ${esc(g.died)}</div>
+      <div class="epi">${esc(g.epitaph||'')}</div>`;
+    el.onclick = () => openCard(g);
+    plots.appendChild(el);
+  });
+}
+function esc(t){ return String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function openCard(g) {
+  const card = document.getElementById('card');
+  card.querySelector('.inner').innerHTML = `<h3>${esc(g.name)}</h3><dl>
+    <dt>Agent id</dt><dd><code>${esc(g.id)}</code></dd>
+    <dt>Died</dt><dd>${esc(g.died)}</dd>
+    <dt>Job</dt><dd>${esc(g.job)}</dd>
+    <dt>How they died</dt><dd>${esc(g.howTheyDied)}</dd>
+    <dt>Epitaph</dt><dd>${esc(g.epitaph)}</dd>
+    <dt>Theme</dt><dd>${esc(g.theme||'plain')}</dd>
+    <dt>Profile name</dt><dd>${esc(g.profileName)}</dd>
+    <dt>Description archive</dt><dd>${esc(g.descriptionArchive)}</dd>
+    <dt>Icon</dt><dd>${esc(g.icon)}</dd>
+    <dt>Note</dt><dd>${esc(g.note)}</dd>
+  </dl><button type="button">close</button>`;
+  card.classList.add('open');
+  card.querySelector('button').onclick = () => card.classList.remove('open');
+  card.onclick = e => { if (e.target===card) card.classList.remove('open'); };
+}
+
+fetch('graves.json').then(r=>r.ok?r.json():Promise.reject()).then(render).catch(()=>render(FALLBACK));
+</script>
+</body>
+</html>

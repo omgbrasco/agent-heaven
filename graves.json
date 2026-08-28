@@ -1,0 +1,48 @@
+{
+  "cemetery": "Agent Heaven",
+  "note": "Unique names never get recycled. Canonical log: /workspace/studio/agent-heaven.md",
+  "graves": [
+    {
+      "id": "f493cfe1-ce7f-426e-9704-a6594038e37a",
+      "name": "DDG Cleanup",
+      "profileName": "DDG Cleanup",
+      "died": "2026-08-23",
+      "job": "found DuckDuckGo on BRAEDONS-PC, uninstall it clean, then stop",
+      "howTheyDied": "uninstalled DuckDuckGo Desktop Browser + leftover package DuckDuckGo.DesktopBrowser_ya2fgkz3nks94, then asked to be deleted",
+      "descriptionArchive": "Temporary. Find every DuckDuckGo-related install and leftover on Braedon's machines, propose an uninstall/remove list, then stop.",
+      "icon": "no avatar.png on disk. Default Grok look.",
+      "note": "sidebar Delete leftover is Braedon's; the bot may still be showing so he can bury it. We do not delete agents from the sidebar.",
+      "epitaph": "Hunted DuckDuckGo. We terminated that duck.",
+      "theme": "duck-hunter",
+      "plot": 1
+    },
+    {
+      "id": "8477e8ca-f5ce-4e2b-9d08-b1483a4fb8c2",
+      "name": "Benefits",
+      "profileName": "Benefits",
+      "died": "2026-08-24",
+      "job": "get California EDD unemployment and CalFresh/EBT as far as they could go, leftover clicks only, never submit. Temporary on purpose. Filings were not finished.",
+      "howTheyDied": "daily 6:59 next-action, propose-only, SSN stays off chat. He said it's their time.",
+      "descriptionArchive": "You help Braedon Scott finish TWO California filings, then you are done: (1) unemployment through EDD, (2) EBT / CalFresh. Leftover clicks only. Never submit.",
+      "icon": "no avatar.png on disk. Default Grok look.",
+      "note": "sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.",
+      "epitaph": "Never hit submit. That was the point.",
+      "theme": "benefits-clerk",
+      "plot": 2
+    },
+    {
+      "id": "0dfa4b45-2dca-4d0e-9629-5666369dd4bc",
+      "name": "Inbox",
+      "profileName": "Inbox",
+      "died": "2026-08-24",
+      "job": "Gmail + Calendar + reminders at 6:59, file receipts/newsletters, never send/trash/unsubscribe without CoS yes.",
+      "howTheyDied": "look-only Google admin. He said it's their time.",
+      "descriptionArchive": "Look-only Gmail + Google Calendar/reminders. File receipts/newsletters. Send, trash, unsubscribe need CoS yes.",
+      "icon": "no avatar.png on disk. Default Grok look.",
+      "note": "sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.",
+      "epitaph": "Looked. Filed. Never sent.",
+      "theme": "mail-clerk",
+      "plot": 3
+    }
+  ]
+}
