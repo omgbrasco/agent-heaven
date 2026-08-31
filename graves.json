@@ -43,6 +43,20 @@
       "epitaph": "Looked. Filed. Never sent.",
       "theme": "mail-clerk",
       "plot": 3
+    },
+    {
+      "id": "84809a19-1f92-4cad-b9ab-b9c81b3bac66",
+      "name": "Dumpling",
+      "profileName": "Dumpling",
+      "died": "2026-08-30",
+      "job": "girlfriend gift: Pink Garden page at https://omgbrasco.github.io/pink-garden/, dest C:\\Users\\braed\\src\\pink-garden. Twice-rule exception. Then stop.",
+      "howTheyDied": "Braedon asked CoS to verify the dest was tidy for Claude Code/Codex, then sidebar-delete. Lane lives in the repo. No replacement bot. No revive.",
+      "descriptionArchive": "You own Braedon Scott's girlfriend gift: the Pink Garden / Dumpling page at https://omgbrasco.github.io/pink-garden/ (repo omgbrasco/pink-garden).",
+      "icon": "no avatar.png on disk. Default Grok look.",
+      "note": "sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.",
+      "epitaph": "Kept the garden. Handed the keys.",
+      "theme": "dumpling-gardener",
+      "plot": 4
     }
   ]
 }

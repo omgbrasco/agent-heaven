@@ -60,3 +60,19 @@ Edit and push here. No Pages unless Braedon yeses. No second cemetery. Fun/publi
 - **Theme:** mail-clerk — cute look-only mail clerk: envelope, little glasses, calendar square, hands-off vibe.
 - **Epitaph:** Looked. Filed. Never sent.
 - **Note:** sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.
+
+---
+
+## Dumpling
+
+- **Name:** Dumpling
+- **Agent id:** `84809a19-1f92-4cad-b9ab-b9c81b3bac66`
+- **Died:** 2026-08-30
+- **Job:** girlfriend gift: Pink Garden page at https://omgbrasco.github.io/pink-garden/, dest `C:\Users\braed\src\pink-garden`. Twice-rule exception. Then stop.
+- **How they died:** Braedon asked CoS to verify the dest was tidy for Claude Code/Codex, then sidebar-delete. Lane lives in the repo. No replacement bot. No revive.
+- **Profile name:** Dumpling
+- **Description archive:** You own Braedon Scott's girlfriend gift: the Pink Garden / Dumpling page at https://omgbrasco.github.io/pink-garden/ (repo omgbrasco/pink-garden).
+- **Icon:** no avatar.png on disk. Default Grok look. Costume is CSS (dumpling-gardener), not a fabricated portrait.
+- **Theme:** dumpling-gardener - mossy rock, pink garden, glass bubble, girlfriend gift. Gentle, not corporate.
+- **Epitaph:** Kept the garden. Handed the keys.
+- **Note:** sidebar Delete leftover is Braedon's; we do not delete agents from the sidebar. No revive.
